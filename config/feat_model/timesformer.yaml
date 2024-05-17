@@ -1,0 +1,8 @@
+name: "TimeSFormer"
+loader: timesformer
+data_path: depalm-data/models/TimeSformer_divST_8x32_224_K400.pyth
+hidden_feature_shape: [197, 768] # Pooled token + hidden features tokens, 1568=112*14=8*14*14
+norm: null
+tokens_grid: [14, 14]
+fixed_time_dims: false
+average_time: false

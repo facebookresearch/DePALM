@@ -1,0 +1,5 @@
+name: "timm/vit_large_patch16_224.augreg_in21k_ft_in1k"
+loader: timm_vit
+data_path: depalm-data/models/timm/vit_large_patch16_224.augreg_in21k_ft_in1k.bin
+hidden_feature_shape: [197, 1024] # Or 'auto'
+tokens_grid: [14, 14]

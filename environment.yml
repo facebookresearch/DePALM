@@ -1,0 +1,50 @@
+name: depalm
+channels:
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.10
+  - cudatoolkit=11.7
+  - pip
+  - pip:
+    - --extra-index-url https://download.pytorch.org/whl/nightly/cu117
+    - --pre 
+    - numpy==1.23.5
+    - torch>=2.0.1+cu117
+    - torchvision>=0.15.2+cu117
+    - torchaudio>=2.0.2
+    - hydra-core
+    - tqdm
+    - hydra-colorlog
+    - cython
+    - matplotlib
+    - pillow
+    - opencv-python
+    - transformers==4.30.0
+    - timm
+    - sentencepiece
+    - submitit
+    - tbparse
+    - iopath
+    - evaluate
+    - scikit-learn
+    - rouge_score
+    - jupyterlab
+    - ipywidgets
+    - datasets
+    - open_clip_torch[training]
+    - triton>=2.0.0
+    - decord
+    - librosa
+    - soundfile
+    - pkgutil_resolve_name
+    - laion-clap
+    - aac-metrics
+    - einops
+    - audiocaps-download
+    - git+https://github.com/facebookresearch/fvcore
+    - simplejson
+    - psutil
+    - tensorboard
+    - git+https://github.com/facebookresearch/TimeSformer
+    - --editable .

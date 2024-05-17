@@ -1,0 +1,38 @@
+name: "audiocaps"
+test_on: test
+root: "depalm-data/audiocaps"
+data_paths:
+  - depalm-data/audiocaps/train
+  - depalm-data/audiocaps/test
+  - depalm-data/audiocaps/val
+
+noise: false
+skip_norm: false
+normalize_text: true
+audio_model_type: auto
+
+splits:
+  train:
+    batch_size: 16
+    random_augment: yes
+  val:
+    batch_size: 16
+    training_frac: 1
+  test:
+    batch_size: 16
+
+insert_instruction: False
+instructions:
+  - ""
+  - "Answer: "
+  - "Caption: "
+  - "Caption of the audio: "
+  - "In this audio, we can can hear "
+
+metrics:
+  - B@1
+  - B@2
+  - CIDEr
+  - SPICE
+  - METEOR
+  - acc_eval

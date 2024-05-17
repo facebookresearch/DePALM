@@ -1,0 +1,238 @@
+defaults:
+  - _self_
+  - dataset: null
+  - experiment: null
+  - mod: null
+  - feat_model: clip-vit-L # eva-clip-L
+  - llm: llama
+  - override hydra/job_logging: colorlog
+
+seed: 0
+erase_jobid: null
+
+output_dir: depalm-outputs
+slurm_log_dir: null
+run_dir: ${output_dir}/${exp_name}/${llm.name}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+load_model: null # Set to a string value to load from a given path
+test: False # Enable to test (test split) instead of training a new model
+eval: False # Enable to eval (val split) instead of training a new model
+test_on_train: False # Enable to eval (train split) instead of training a new model
+qualitative: False # Enable to write some qualitative results during test time
+
+env:
+  CUDA_HOME: "/public/apps/cuda/11.8"
+  PYTORCH_CUDA_ALLOC_CONF: "expandable_segments:True"
+
+profiling: false
+compile: false
+
+distributed: # Parameters for distributed computing
+  enable: true
+  cpu_per_process: 10
+  float_type: float16
+  cast_float16: false
+  fsdp: false
+  master_port: null
+
+hydra:
+  verbose: False
+  run:
+    dir: ${run_dir}
+  sweep:
+    dir: ${run_dir}
+    subdir: multirun_${hydra.job.num}
+  job_logging:
+    handlers:
+      file:
+        filename: ${hydra.runtime.output_dir}/${hydra.job.name}.log
+
+
+##### Default values #####
+
+exp_name: null
+
+finetune:
+  prompt_tuning:
+    enable: False
+    new_tokens: 16
+    embeding_layer_name: 'auto'
+    insert_at: 0
+    padding_mode: causal # causal non-causal prev-non-causal zero
+    full_model: false
+    init_first: false # Will add prompt tuning BEFORE token insertion
+  feat_model:
+    unfreeze_norm: false
+    bias_tuning:
+      enable: false
+      bias: true
+      scaling: true
+      init_rand: false
+  text_model:
+    unfreeze_norm: false
+    bias_tuning:
+      enable: false
+      bias: true
+      scaling: true
+      init_rand: false
+  
+  remove_in_proj: false # Remove first linear projection when loading the model
+  train_only_first_proj: false # train only first linear projection (input to the adapter)
+  also_train_prompt: false # If train_only_first_proj, unfreeze prompt tokens
+  also_train_end_proj: false # If train_only_first_proj, unfreeze end projection weights + bias
+  also_train_end_proj_bias: false # If train_only_first_proj, unfreeze end projection bias
+
+training:
+  batch_max_tokens: 1000
+  loss_label_only: true
+  loss_smothing: 2e-3
+  start_epoch: 0
+  epochs: 8
+  log_freq: 100
+  accumulate_steps: 1
+  clip_norm: 0.8
+
+  optimizer:
+    name: AdamW
+    args:
+      lr: 8e-4
+      weight_decay: 0.1
+      eps: 1e-4
+    overwrite:
+      prompt: {}
+      adapter: {}
+      feat_model: {}
+      model_text: {}
+      cross_attn: {}
+      other: {}
+  scheduler:
+    name: cosine
+    cycle_length: full
+    lr_min_fact: 1e-4
+    warmup_fract: 0.2
+
+adapter:
+  name: prefix_tokens_inner_layers
+  insert_at: 0
+  gating: false
+  token_norm: false
+  keep_inserted_tokens_until_end: false
+  padding_mode: causal # causal non-causal prev-non-causal zero
+  merge_layer_features: false
+  cross_attn:
+    out_mlp_layers: 0
+    vis_mlp_layers: 0
+    llm_mlp_layers: 0
+
+  embed_dim: null
+  activation: gelu
+  norm_layer: rms_norm
+  mlp_scale: 1
+  transformer:
+    mode: 'QPMapper' # QPMapper, Q_former, simple, simple_and_Q
+    n_layers: 0
+    n_tokens: 1
+    query_per_layer: false
+    dropout: 0.1
+    bias: true
+    num_heads: 8
+    activation_before_mlp: false
+    embed_queries: true
+    causal: false
+    keep_cls_token: false
+    pos_encoding: null # null, CLS, rotary, learned
+  mlp:
+    n_layers: 0
+    dropout: 0
+    bias: true
+    flatten: false
+  bias_tuning:
+    enable: false
+    share_on_tokens: true
+    bias: true
+    scaling: true
+    init_rand: false
+
+  source:
+    to_idx: null
+    n_elements: null
+    from_idx: null
+    stride: null
+    keep_features:
+      to_idx: null
+      n_elements: null
+      from_idx: null
+      stride: null
+  target:
+    to_idx: null
+    n_elements: null
+    from_idx: null
+    stride: null
+  
+  sharing:
+    share_connections: false
+    n_connections: null
+
+resampler:
+  type: null
+
+llm:
+  name: null
+  cache_dir: depalm-data/models
+  data_path: null
+  local_files_only: true
+  load_float16: true
+
+  special_answer_token: null
+  special_answer_prompt: null
+  add_eos: true
+
+  model:
+    name: ${..name}
+    revision: main
+    use_cache: False
+
+  tokenizer:
+    name: ${..name}
+    revision: main
+    padding_side: null
+    pad_token: null
+
+  generation:
+    args:
+      do_sample: false
+      temperature: 0.01
+      num_beams: 3
+      max_new_tokens: 50
+
+feat_model:
+  hidden_feature_shape: 'auto'
+  features_batch_axis: 0
+  norm: auto
+  load_float16: true
+
+dataset:
+  name: null
+  loader: ${.name}
+  root: null
+  resize_image_size: no
+  split_multirow_train: no
+  test_on: test
+  split_into_epochs: 1 # 1 for no split, greater will split the dataset through multiple epochs
+  splits:
+    train:
+      batch_size: 16
+      max_rows: null
+      random_augment: yes
+    val:
+      batch_size: 1 # 1 -> for padding issues
+      max_rows: null
+      training_frac: 0.1 # Fraction [0;1] used for validation estimation during the training phase
+      random_augment: no
+    test:
+      batch_size: 1 # 1 -> for padding issues
+      max_rows: null
+      random_augment: no
+  insert_instruction: False # random, first, default, False
+  instructions: []
+  metrics: []
+  metric_eval_tokenize: true

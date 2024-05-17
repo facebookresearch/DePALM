@@ -1,0 +1,26 @@
+# @package _global_
+
+defaults:
+  - epalm
+  - override /llm: llama
+  - override /feat_model: clip-vit-L
+  - _self_
+
+exp_name: epalm
+
+
+adapter:
+  token_norm: true
+  bias_tuning:
+    enable: true
+  padding_mode: causal # causal non-causal prev-non-causal zero
+  activation: null
+
+  target:
+    to_idx: -4
+    n_elements: 6
+
+training:
+  optimizer:
+    args:
+      lr: 8e-4

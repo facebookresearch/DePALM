@@ -1,0 +1,6 @@
+name: "openai/clip-vit-large-patch14"
+loader: transformers
+data_path: depalm-data/models/torch-hub
+features_batch_axis: 0
+hidden_feature_shape: [257, 1024]
+tokens_grid: [16, 16]

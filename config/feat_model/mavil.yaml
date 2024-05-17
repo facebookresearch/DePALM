@@ -1,0 +1,8 @@
+name: "MAViL"
+loader: mavil
+data_path: depalm-data/models/mavil
+hidden_feature_shape: [513, 768] # Pooled token + hidden features tokens
+norm: null
+global_pool: false
+drop_path_rate: 0.1
+tokens_grid: [512]

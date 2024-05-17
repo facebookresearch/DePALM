@@ -1,0 +1,75 @@
+# @package _global_
+
+defaults:
+  - override /llm: llama
+  - _self_
+
+exp_name: depalm
+
+finetune:
+  prompt_tuning:
+    enable: True
+    new_tokens: 16
+    full_model: False
+    padding_mode: causal # causal non-causal prev-non-causal zero
+
+adapter:
+  name: prefix_tokens_inner_layers
+  insert_at: 0 # For OPT, because there is a </s> token inserted before
+  gating: false
+  token_norm: true
+  keep_inserted_tokens_until_end: false
+  padding_mode: causal # causal non-causal prev-non-causal zero
+
+  embed_dim: 1024
+  transformer:
+    n_layers: 4
+    n_tokens: 32 # Number of learned queries, which is the number of output tokens
+    query_per_layer: false
+    dropout: 0.1
+    bias: true
+    num_heads: 8
+    activation_before_mlp: false
+    embed_queries: true
+  mlp: # The last MLP layer is also the upsampling layer for transformers, etc, at the end.
+    n_layers: 1
+    dropout: 0
+    bias: true
+    flatten: false
+  bias_tuning:
+    enable: true
+    share_on_tokens: true
+    bias: true
+    scaling: true
+    init_rand: false
+
+  source:
+    to_idx: -1
+    n_elements: 4
+    from_idx: null
+    stride: null
+    keep_features:
+      to_idx: null
+      n_elements: null # Value only used when no transformer
+      from_idx: 0
+      stride: null
+  target:
+    to_idx: -4
+    n_elements: 12
+    from_idx: null
+    stride: null
+  
+  sharing:
+    share_connections: true
+    n_connections: 1
+
+dataset:
+  splits:
+    train: # Rows: 443757 (vqa) / 605102 (vqa karpathy) / 118287 (coco 2017) / 82783 (coco karpathy)
+      batch_size: 16
+    val: # Rows: 214354 (vqa) / 26729 (vqa karpathy) / 5000 (coco 2017) / 5000 (coco karpathy)
+      # batch_size: 64
+      training_frac: 0.1
+    # test: # Rows: 447793 (vqa) / 26280 (vqa karpathy) / 40670 (coco 2017) / 5000 (coco karpathy)
+    #   batch_size: 64
+

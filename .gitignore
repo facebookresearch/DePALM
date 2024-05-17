@@ -1,0 +1,15 @@
+*.pyc
+__pycache__
+outputs
+.DS_Store
+*.egg-info
+*.nfs*
+*cccmetrics/tokenizer/tmp*
+depalm/metrics/*
+tmp*
+/core
+/metrics
+cache
+*.jar
+*.gz
+depalm-data

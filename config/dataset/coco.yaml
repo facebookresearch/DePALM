@@ -1,0 +1,33 @@
+name: "COCO_karpathy"
+test_on: test
+root: "depalm-data/COCO"
+
+resize_image_size: 224
+
+splits:
+  train:
+    batch_size: 16
+    random_augment: yes
+  val:
+    batch_size: 4
+    training_frac: 0.01
+  test:
+    batch_size: 4
+
+insert_instruction: False # random, first, False
+instructions:
+  - ""
+  - "Answer: "
+  - "Caption: "
+  - "This is an image of "
+  - "You are provided with an image.\nTask: describe the image.\nAnswer: "
+  - "Answer the following task using the image.\nTask: describe the image.\nAnswer: "
+  - "What is on this picture? "
+  - "Write a caption that describes this image. Caption: "
+  - "Here is a caption of the previous image: "
+  - "Describes the image previously given. Your description: "
+  - "Describes this image. Response: "
+
+metrics:
+  - BLEU
+  - CIDEr

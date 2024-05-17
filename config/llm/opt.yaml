@@ -1,0 +1,14 @@
+name: "facebook/opt-6.7b"
+loader: opt
+
+special_answer_token: </a>
+special_answer_prompt: "Answer: "
+add_eos: true
+
+model:
+  revision: float16
+
+tokenizer:
+  padding_side: null
+  pad_token: null
+

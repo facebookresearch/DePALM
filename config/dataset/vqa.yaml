@@ -1,0 +1,39 @@
+name: "VQA"
+root: "depalm-data/COCO"
+vqa_data_path: "depalm-data/vqa_v2"
+
+resize_image_size: 224
+normalize_image: no
+raw_label: no
+
+test_on: val_test
+splits:
+  train:
+    batch_size: 16
+    images: train2014
+    data_file: karpathy_train.json
+    random_augment: yes
+  val:
+    batch_size: 1
+    images: val2014
+    data_file: karpathy_val.json
+    random_augment: no
+  test:
+    batch_size: 1
+    images: test2014
+    data_file: karpathy_test.json
+    answers: null
+    random_augment: no
+
+insert_instruction: 1
+instructions:
+  - "{prompt}"
+  - "{prompt}\n\nAnswer:\n"
+  - "Task: answer the question using the image.\n\nQuestion: {prompt}\n\nAnswer:\n"
+  - "Question: {prompt}\n\nAnswer:\n"
+  - "Use the question to image to answer to the question.\nQuestion: {prompt}\nA:"
+  - "You are provided with an image and a question.\nTask: answer the question using the image.\nQuestion: {prompt}\nAnswer: "
+  - "Answer the following questin using the image.\nQuestion: {prompt}\nAnswer: "
+
+metrics:
+  - vqa_accuracy

@@ -1,0 +1,19 @@
+root: "depalm-data/textcaps"
+loader: textcaps
+name: textcaps
+
+resize_image_size: 224
+
+test_on: val
+splits:
+  train:
+    batch_size: 16
+    random_augment: yes
+  val:
+    batch_size: 1
+  test:
+    batch_size: 1
+
+metrics:
+  - BLEU
+  - CIDEr

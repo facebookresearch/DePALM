@@ -1,0 +1,10 @@
+root: "depalm-data/text_vqa"
+loader: text_vqa
+name: text_vqa
+
+resize_image_size: 224
+
+test_on: val
+
+metrics:
+  - vqa_accuracy

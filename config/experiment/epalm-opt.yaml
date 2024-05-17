@@ -1,0 +1,55 @@
+# @package _global_
+
+defaults:
+  - override /feat_model: vit-L-in21k_ft1k
+  - override /llm: opt
+  - _self_
+
+exp_name: epalm_opt
+
+finetune:
+  prompt_tuning:
+    enable: true
+    new_tokens: 10
+    full_model: False
+    embeding_layer_name: 'auto'
+    insert_at: 0
+    padding_mode: causal
+
+adapter:
+  name: prefix_tokens_inner_layers
+  insert_at: 0
+  keep_inserted_tokens_until_end: false
+  padding_mode: causal
+
+  mlp:
+    n_layers: 1
+    dropout: 0
+    bias: true
+    flatten: false
+
+  source:
+    to_idx: -1
+    n_elements: 6
+    keep_features:
+      n_elements: 1
+      from_idx: 0
+  target:
+    to_idx: -2
+    n_elements: 12
+  
+  sharing:
+    share_connections: true
+    n_connections: 1
+
+dataset:
+  splits:
+    train:
+      batch_size: 16
+    val:
+      training_frac: 0.1
+
+training:
+  optimizer:
+    args:
+      lr: 8e-4

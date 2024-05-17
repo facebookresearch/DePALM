@@ -1,0 +1,6 @@
+name: "eva02_large_patch14_clip_224.merged2b"
+loader: timm_vit
+data_path: depalm-data/models/timm/eva02_large_patch14_clip_224.merged2b_s4b_b131k.bin
+hidden_feature_shape: [257, 1024]
+tokens_grid: [16, 16]
+norm: null

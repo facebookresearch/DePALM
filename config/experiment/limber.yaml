@@ -1,0 +1,22 @@
+# @package _global_
+
+exp_name: limber
+
+adapter:
+  name: prefix_tokens_inner_layers
+  keep_inserted_tokens_until_end: true
+  activation: null # For when mlp=2
+
+  mlp:
+    n_layers: 1
+
+  source:
+    to_idx: -1
+    n_elements: 1
+    keep_features:
+      n_elements: all
+      from_idx: 0
+  target:
+    n_elements: 1
+    from_idx: 0
+    to_idx: 0

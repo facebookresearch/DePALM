@@ -1,0 +1,12 @@
+name: "OKVQA"
+root: "depalm-data/okvqa"
+
+resize_image_size: 224
+test_on: val
+
+insert_instruction: 0
+instructions:
+  - "{prompt}\n\nAnswer:\n"
+
+metrics:
+  - vqa_accuracy

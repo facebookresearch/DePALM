@@ -1,0 +1,32 @@
+name: "msrvtt"
+test_on: test
+root: "depalm-data/msrvtt"
+
+resize_image_size: 224
+
+num_frames: 16 # or 8
+sample_type: 'rand_middle' # rand, middle, rand_middle
+split_multirow_train: no # yes ?
+
+splits:
+  train:
+    batch_size: 16
+    random_augment: yes
+  val:
+    batch_size: 8
+  test:
+    batch_size: 8
+
+insert_instruction: False
+instructions:
+  - ""
+  - "Answer: "
+  - "Caption: "
+  - "Caption of the video: "
+  - "In the video, "
+
+metrics:
+  - BLEU
+  - CIDEr
+  - METEOR
+  - acc_meteor

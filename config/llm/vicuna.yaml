@@ -1,0 +1,12 @@
+name: "lmsys/vicuna-7b-v1.5"
+loader: vicuna
+
+special_answer_prompt: "Answer: "
+add_eos: true
+
+model:
+  revision: float16
+
+tokenizer:
+  padding_side: right
+  pad_token: <unk>

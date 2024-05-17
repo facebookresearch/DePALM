@@ -1,0 +1,7 @@
+name: "MIT/ast-finetuned-audioset-10-10-0.4593"
+loader: ast
+audio_model_type: audio_features
+data_path: depalm-data/models/torch-hub
+hidden_feature_shape: [1215, 768] # Pooled token + hidden features tokens
+tokens_grid: [1214]
+norm: 'auto'

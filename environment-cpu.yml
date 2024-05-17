@@ -1,0 +1,47 @@
+name: depalm-cpu
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - av
+  - pip:
+    - numpy==1.23.5
+    - torch>=2.0.1
+    - torchvision>=0.15.2
+    - torchaudio>=2.0.2
+    - hydra-core
+    - tqdm
+    - hydra-colorlog
+    - cython
+    - matplotlib
+    - pillow
+    - opencv-python
+    - transformers==4.30.0
+    - timm
+    - sentencepiece
+    - submitit
+    - tbparse
+    - iopath
+    - evaluate
+    - scikit-learn
+    - rouge_score
+    - jupyterlab
+    - ipywidgets
+    - datasets
+    - open_clip_torch[training]
+    - decord
+    - librosa
+    - soundfile
+    - pkgutil_resolve_name
+    - laion-clap
+    - aac-metrics
+    - einops
+    - audiocaps-download
+    - git+https://github.com/facebookresearch/fvcore
+    - simplejson
+    - psutil
+    - tensorboard
+    - git+https://github.com/facebookresearch/TimeSformer
+    - --editable .

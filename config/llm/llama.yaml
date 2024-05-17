@@ -1,0 +1,13 @@
+name: "luodian/llama-7b-hf"
+loader: llama
+local_files_only: True
+
+add_eos: true
+
+model:
+  revision: float16
+
+tokenizer:
+  padding_side: right
+  pad_token: <unk>
+

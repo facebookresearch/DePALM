@@ -1,0 +1,35 @@
+# @package _global_
+
+defaults:
+  - _self_
+  - override /feat_model: clip-vit-L
+
+adapter:
+  name: cross_attention
+  gating: true
+  token_norm: true
+  embed_dim: 1024
+
+  cross_attn:
+    llm_mlp_layers: 2
+    vis_mlp_layers: 0
+    out_mlp_layers: 0
+    residual: false
+
+  mlp:
+    n_layers: 1
+  transformer:
+    n_layers: 1
+    n_tokens: null
+    embed_queries: false
+  source:
+    keep_features:
+      n_elements: all
+
+training:
+  clip_norm: 0.05
+  accumulate_steps: 2
+
+  optimizer:
+    args:
+      lr: 8e-4

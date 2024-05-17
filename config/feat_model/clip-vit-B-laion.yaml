@@ -1,0 +1,6 @@
+name: "laion/CLIP-ViT-B-16-laion2B-s34B-b88K"
+loader: openclip
+data_path: depalm-data/models/torch-hub
+features_batch_axis: 1
+hidden_feature_shape: [197, 768]
+tokens_grid: [16, 16]

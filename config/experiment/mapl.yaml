@@ -1,0 +1,29 @@
+# @package _global_
+
+exp_name: mapl
+
+adapter:
+  name: prefix_tokens_inner_layers # prefix_tokens_l0
+  keep_inserted_tokens_until_end: true
+
+  embed_dim: 256
+  transformer:
+    n_layers: 4
+    n_tokens: 32 # Number of learned queries, which is the number of output tokens
+    dropout: 0.1
+    bias: true
+    num_heads: 8
+    activation_before_mlp: false
+    embed_queries: true
+  mlp: # The MLP layer is the upsampling layer
+    n_layers: 1
+
+  source:
+    to_idx: -1
+    n_elements: 1
+    keep_features:
+      from_idx: 0
+  target:
+    n_elements: 1
+    from_idx: 0
+    to_idx: 0

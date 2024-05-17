@@ -1,0 +1,9 @@
+[project]
+name = "depalm"
+version = "1.0.0"
+
+[tool.setuptools]
+py-modules = ["depalm"]
+
+[build-system]
+requires = ["setuptools"]

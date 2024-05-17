@@ -1,0 +1,10 @@
+name: "CLAP"
+loader: clap
+audio_model_type: raw_audio
+hidden_feature_shape: [1025, 512] # Pooled token + hidden features tokens
+norm: null
+global_pool: false
+drop_path_rate: 0.1
+tokens_grid: [1024]
+
+fusion: false

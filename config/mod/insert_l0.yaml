@@ -1,0 +1,22 @@
+# @package _global_
+
+adapter:
+  name: prefix_tokens_inner_layers
+  keep_inserted_tokens_until_end: true
+  bias_tuning:
+    enable: false
+  token_norm: false
+  source:
+    n_elements: 1
+  target:
+    n_elements: 1
+    from_idx: 0
+    to_idx: 0
+  transformer:
+    n_tokens: 32
+  
+finetune:
+  prompt_tuning:
+    enable: true
+    new_tokens: 1
+    full_model: false

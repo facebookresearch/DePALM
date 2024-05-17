@@ -1,0 +1,7 @@
+name: "dinov2_vitb14"
+loader: dinov2
+data_path: depalm-data/models/torch-hub
+hidden_feature_shape: 'auto'
+resize_size: 224
+crop_size: 224
+tokens_grid: [16, 16]

@@ -1,0 +1,64 @@
+# @package _global_
+
+exp_name: depalm_resampler
+
+finetune:
+  prompt_tuning:
+    enable: true
+    new_tokens: 1
+    init_first: true
+
+adapter:
+  name: prefix_tokens_inner_layers
+  keep_inserted_tokens_until_end: true
+  activation: null
+  token_norm: false
+  embed_dim: UNK
+
+  mlp:
+    n_layers: 1 # Best is to have a linear layer after pooling to push tokens to embeding space
+
+  source:
+    to_idx: -1
+    n_elements: 1
+    keep_features:
+      n_elements: all
+      from_idx: 0
+  target:
+    n_elements: 1
+    from_idx: 0
+    to_idx: 0
+  
+  bias_tuning:
+    enable: false
+    share_on_tokens: false
+    scaling: false
+    bias: true
+
+resampler:
+  type: to_select # avg_pool, max_pool, linear, conv, qpmapper, rand_patch, rand_any_patch
+  drop_cls: false
+  reduction_fact: 4
+  project_cls: true
+  duplicate_cls: 1
+  normalize: true
+  mlp:
+    n_layers: 0
+    activation: false
+    pre_activation: false
+    post_activation: false
+  qpmapper:
+    n_layers: 4
+    n_tokens: 1
+    dropout: 0.1
+    bias: true
+    num_heads: 8
+    activation_before_mlp: false
+  
+  rand_scale: # For rand_any_patch
+    eval_full: true # if true, will evaluate on 100% tokens. If false, will use <max> tokens
+    mean: 0.25
+    std: 0.2
+    min: 0.0625
+    max: 0.5
+    full_proba: 0.1 # Proba for maximum (not necessarly 100%)

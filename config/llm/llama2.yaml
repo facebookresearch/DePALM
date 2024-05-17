@@ -1,0 +1,6 @@
+defaults:
+  - llama
+  - _self_
+
+name: "meta-llama/llama-2-7b-hf"
+special_answer_prompt: "Answer: "

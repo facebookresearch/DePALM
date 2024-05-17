@@ -1,0 +1,15 @@
+name: "alpaca-7b"
+loader: llama
+local_files_only: True
+data_path: depalm-data/models/alpaca
+
+special_answer_prompt: "Answer: "
+add_eos: true
+
+model:
+  revision: float16
+
+tokenizer:
+  padding_side: right
+  pad_token: <unk>
+
